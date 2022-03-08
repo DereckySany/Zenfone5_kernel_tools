@@ -1,25 +1,25 @@
-# Zenfone5 kernel tools
+# Ferramentas do kernel Zenfone5
 
-## Download the toolchain 
+## Baixe as ferramentas toolchain 
 
 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/x86/x86_64-linux-android-4.8/+/android-5.1.1_r13
 
-Place on:
+Coloque em:
 
 > prebuilts/gcc/linux-x86/x86/x86_64-linux-android-4.8
 
 ### 	TARGET_DEVICE=hd  (A500CG/A501CG/A600CG - default)
 
-### For building kerne from source
+### Para construir o kerne a partir da fonte:
 ```
 $ make -f KernelMakefile TARGET_DEVICE=hd build_kernel
 ```
- or
- ```
+OU
+```
 $ make -f KernelMakefile TARGET_DEVICE=hd modules_install
 ```
 
-After building the kernel from source this is how to generate the .dep files needed:
+Depois de compilar o kernel a partir da fonte, é assim que você gera os arquivos .dep necessários:
 
 `
 modules.alias
@@ -32,17 +32,15 @@ modules.softdep
 modules.symbols
 modules.symbols.bin
 `
+Esse arquivo é gerado e preciso se o kernel do zenfone 5 for executado com módulos, sugiro corrigir o kernel para executar todos os módulos a serem incorporados.
 
-that file is generated and need if zenfone 5 kernel run with modules i suggest to fix the kernel to be run
-all modules to be built in
-
-the command need to generate this file is beloc in you terminal
+- O comando precisa gerar este arquivo é beloc em seu terminal
 ```
 make -f KernelMakefile TARGET_DEVICE=hd copy_modules_to_root
 ```
-after success you will find all module on `out/target/product/asusctp_hd/root`
+Após o sucesso, você encontrará todos os módulos em `out/target/product/asusctp_hd/root`
 
-copy ramdisk and start to pack the kernel
+- Copie o ramdisk e comece a empacotar o kernel
 ```
 pack ramdisk.cio.gz
 ```
@@ -52,11 +50,11 @@ find . | cpio -o -H newc | gzip > ../ramdisk.cpio.gz
 ```
 pach the boot image 
 ```
-Teminal command for pack:
+- Comando do Teminal para empacotar:
 ```
 pack_intel boot.img bzImage ramdisk.cpio.gz new_boot.img
 ```
-Teminal command for unpack:
+- Comando do Teminal para descompactar:
 ```
 unpack_intel boot.img bzImage ramdisk.cpio.gz
 ```
